@@ -1,0 +1,25 @@
+#include "mpi.h"
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc,char *argv[])
+{  
+char data[26];  
+int myrank, count = 25;  
+MPI_Status status;  
+MPI_Init(&argc, &argv);  
+MPI_Comm_rank(MPI_COMM_WORLD, &myrank);  
+if (myrank == 0)  
+{  
+strcpy(data, "Hi, Parallel Programmer!");  
+MPI_Bcast(&data, 26, MPI_BYTE, 0, MPI_COMM_WORLD);
+printf("send: %s\n", data);  
+}  
+else  
+{  
+MPI_Bcast(&data, 26, MPI_BYTE, 0, MPI_COMM_WORLD); 
+printf("received: %s\n", data);  
+}  
+MPI_Finalize();  
+return 0;  
+}
